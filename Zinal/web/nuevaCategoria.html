@@ -1,0 +1,112 @@
+<html>
+	<head>
+		<title>BIBLIOTECA</title>
+		<link rel="shortcut icon" href="imagenes/libroVerde.png">		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="css2/biblioteca.css" type="text/css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="js2/nuevaCategoria.js"></script>
+		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
+		<script src="componentes/prestamos/prestamos.js"></script>
+		<script src="componentes/footer/footer.js"></script>
+		<script src="componentes/busquedas/busquedas.js"></script>
+		<script src="componentes/catalogo/catalogo.js"></script>
+	</head>
+	<body ng-app="nuevaCategoria" ng-controller="CategoriaController" >
+		<barra-navegacion></barra-navegacion>
+		<busqueda></busqueda>
+
+		
+		<div class="container cuerpo">
+		<div class=" col-xs-12 col-sm-12 col-md-7 col-lg-7">
+			
+			<br/>
+			<div class="caja-titulo hidden-xs">
+			<img  itemprop="logo" src="imagenes/libro.png" alt="Biblioteca - uva" height="60" width="80">
+			<b class="tituloInicio"><u>Nueva Categoria</u></b>
+			<br/>
+			<br/>
+			</div>
+			<b class="tituloInicioMovil visible-xs text-center"><u>Nueva Categoria</u></b>
+			
+			<form class="form-horizontal" role="form" >
+						<div class="form-group">
+						<label class="col-lg-4 col-sm-4 col-md-4 control-label"> Nueva Categoria: </label>
+						<div class="col-lg-6 col-sm-6 col-md-6">
+						<input type="text" ng-model="nuevaCategoria" class="form-control" >
+						</div>	
+						</div>
+				<h3 class="texto-error text-center hidden-xs">{{textoError}}</h3>
+				<h4 class="texto-error text-center visible-xs">{{textoError}}</h4>
+				<input type="button" value="Nueva Categoria" class="btn btn-success center-block" ng-click="crearCategoria()"/>
+			</form>
+			</br></br>
+			<table class="table">
+			<tr>
+				<td><strong>#</strong></td>
+  				<td><strong>Nombre Categoria</strong></td>
+  				<td><strong>Editar</strong></td>
+  				<td><strong>Eliminar</strong></td>
+			</tr>
+			<tr ng-repeat="categoria in categorias">
+				<td>{{$index+1}}</td>
+				<td>{{categoria.nombre}}</td>
+				<td><a href="#editarCategoria" class="btn btn-primary" data-toggle="modal" ng-click="asignarIndice($index)">
+				<span class="glyphicon glyphicon-pencil"></span>
+			</a></td>
+				<td>	<button class="btn btn-danger" ng-click="deleteCategoria($index)">
+				<span class="glyphicon glyphicon-remove"></span>
+			</button></td>
+			</tr>
+			</table>
+			
+			
+<!-- Modal -->
+<div id="editarCategoria" class="modal fade">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modificar Categoria: <b>{{getCategoriaModificable()}}</b></h4>
+      </div>
+      <div class="modal-body">
+       <div class="form-group">
+						<label class="col-lg-4 col-sm-4 col-md-4 control-label"> Nueva Categoria: </label>
+						<div class="col-lg-6 col-sm-6 col-md-6">
+						<input type="text" ng-model="nuevaCategoria2" class="form-control" >
+						</div>	
+						</div>
+	      </br>
+				<h4 class="texto-error text-center">{{textoError}}</h4>
+      </div>
+      <div class="modal-footer">
+	<input type="button" value="modificar categoria" class="btn btn-primary" ng-click="modificarCategoria()"/>
+	        <input  type="button" class="btn btn-danger" data-dismiss="modal" value="Cerrar"/>
+      </div>
+    </div>
+  </div>
+</div>
+    
+		</div>
+			
+			
+		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
+			<br/>
+			<br/>
+			<prestamos></prestamos>
+		</div>
+</div>
+		<div class="cuerpo container">
+			</br></br>
+		<catalogo></catalogo>
+		</br></br>
+		</div>
+		<pie-pagina></pie-pagina>
+	</body>
+</html>

@@ -1,0 +1,80 @@
+<html ng-app="busquedaEjemplares">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="css2/biblioteca.css" type="text/css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="js2/busquedaEjemplares.js"></script>
+		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
+		<script src="componentes/prestamos/prestamos.js"></script>
+		<script src="componentes/footer/footer.js"></script>
+		<script src="componentes/busquedas/busquedas.js"></script>
+		<script src="componentes/catalogo/catalogo.js"></script>
+	</head>
+	<body ng-controller="Busqueda1">
+	<barra-navegacion></barra-navegacion>
+	<busqueda></busqueda>
+
+	<div class="container cuerpo">	
+		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 ">
+			<br/>
+			<div class="caja-titulo hidden-xs">
+			<img  itemprop="logo" src="imagenes/libro.png" alt="Biblioteca - uva" height="60" width="80">
+			<b class="tituloInicio"><u>Ejemplares</u></b>
+			<br/>
+			<br/>
+			</div>
+			<b class="tituloInicioMovil visible-xs text-center"><u>Ejemplares</u></b>
+			
+			<div>
+				<img ng-src="{{libro.urlfoto}}" class="libro-busqueda col-lg-3 col-md-3 col-sm-3 foto-libro" height="177" width="128">
+				<div>
+					</br></br>
+				<strong>Titulo: {{libro.titulo}}</strong>
+					<h5>ISBN10: {{libro.isbn10}}</h5>
+					<h5>ISBN13: {{libro.isbn13}}</h5>
+					<h5/><b>Categorias: </b> {{libro.categorias}}</h5>
+					<h5/><b>Autores: </b> {{libro.autores}}</h5>
+				</div>
+			
+			</div>	
+				
+	
+			<ul class="hidden-xs">
+				<li class="list-group-item fondo-titulo titulo-ejemplares ejemplares"><h4 class="text-center  "><b >Ejemplares</b></h4></li>
+			<li class="list-group-item ejemplares" ng-repeat="ejemplar in ejemplares">
+				<h4><b>CODIGO: </b>{{ejemplar.codigo}}</h4>
+				<h4><b> DISPONIBLE:</b> {{ejemplar.disponible?"SI":"NO"}}</h4>
+				<span class="badge" >{{$index+1}}</span>
+				<br/>
+			</li>
+			</ul>
+			<ul class="visible-xs">
+				<li class="list-group-item fondo-titulo titulo-ejemplares ejemplares-movil"><h4 class="text-center  "><b >Ejemplares</b></h4></li>
+			<li class="list-group-item ejemplares-movil" ng-repeat="ejemplar in ejemplares">
+				<h4><b>CODIGO: </b>{{ejemplar.codigo}}</h4>
+				<h4><b> DISPONIBLE:</b> {{ejemplar.disponible?"SI":"NO"}}</h4>
+				<span class="badge" >{{$index+1}}</span>
+				<br/>
+			</li>
+			<li>
+			</ul>		
+		</div>
+		
+		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
+			<br/><br/>
+			<prestamos></prestamos>
+		</div>
+		</div>
+	<div class="cuerpo container">
+		<br/><br/>
+	<catalogo></catalogo>
+	<br/><br/>
+	</div>
+	<pie-pagina></pie-pagina>
+</body>
+</html>

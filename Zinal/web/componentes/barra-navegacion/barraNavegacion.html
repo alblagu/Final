@@ -1,0 +1,60 @@
+		<style>
+			.navbar-color{
+				background-color:  #6c0a13;
+			}
+		
+			.menu-navbar{
+				margin-top: 15px;
+				color:white;	
+				font-weight: bold;
+			}
+			</style>
+	<header>
+		<nav class="container-fluid contenedor-navbar navbar-inverse navbar-static-top navbar-color " >
+			<div class="container">
+				<div class="navbar-header">
+					<a id='logo' itemprop='url' title='You are here' class='logo'>
+<span>
+	<img  class="hidden-xs hidden-sm" itemprop="logo" src="imagenes/logo.gif" alt="Biblioteca - uva" height="90" width="100">
+	<img  class="visible-sm" itemprop="logo" src="imagenes/logo.gif" alt="Biblioteca - uva" height="60" width="70">
+</span></a>
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-1">
+						<span class="sr-only">Menu</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<img class="hidden-xs hidden-sm" alt="biblioteca" src="imagenes/titulo.png"/>
+				</div>
+				<div class="collapse navbar-collapse" id="navbar-1">
+					
+					<ul class="nav navbar-nav navbar-right">
+						<li><a class="menu-navbar" href="http://localhost:8080/TFG3/inicio.html">INICIO</a></li>
+							<li><a class="menu-navbar" href="http://localhost:8080/TFG3/usuarioPerfil.html">PERFIL</a></li>
+						
+
+					<li ng-show="usuario.administrador" class="dropdown"><a  href="#" class="dropdown-toggle menu-navbar" data-toggle="dropdown" >FUNCIONALIDAD<span class="caret"></span></a> 
+							<ul class="dropdown-menu">
+								
+								<li><a href="http://localhost:8080/TFG3/usuarios.html">Usuarios</a></li>	
+								<li><a href="http://localhost:8080/TFG3/nuevoUsuario.html">Nuevo Usuario</a></li>			
+								<li class="divider"></li>	
+								<li><a href="http://localhost:8080/TFG3/nuevoPrestamo.html">Nuevo Prestamo</a></li>	
+								<li><a href="http://localhost:8080/TFG3/finalizarPrestamo.html">Finalizar Prestamo</a></li>	
+								<li class="divider"></li>
+								<li><a href="http://localhost:8080/TFG3/nuevaCategoria.html">Nueva Categoria</a></li>	
+								<li class="divider"></li>
+								<li><a href="http://localhost:8080/TFG3/nuevoEjemplar.html">Nuevo ejemplar</a></li>
+								
+								
+							</ul>
+						</li>
+						<li ><a class="menu-navbar" ng-click="logout()">DESCONECTAR</a> </li>
+					</ul>	
+				</div>
+			</div>
+		</nav>
+	</header>
+		
+			
+

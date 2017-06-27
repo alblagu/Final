@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<title>BIBLIOTECA</title>
+		<link rel="shortcut icon" href="imagenes/libroVerde.png">		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="css2/biblioteca.css" type="text/css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="js2/usuarios.js"></script>
+		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
+		<script src="componentes/prestamos/prestamos.js"></script>
+		<script src="componentes/footer/footer.js"></script>
+		<script src="componentes/busquedas/busquedas.js"></script>
+		<script src="componentes/catalogo/catalogo.js"></script>
+	</head>
+	<body ng-app="usuarios" ng-controller="UsuariosController" >
+		<barra-navegacion></barra-navegacion>
+		<busqueda></busqueda>
+
+		
+		<div class="container cuerpo">
+		<div class=" col-xs-12 col-sm-12 col-md-7 col-lg-7">
+			
+			<br/>
+			<div class="caja-titulo hidden-xs">
+			<img  itemprop="logo" src="imagenes/libro.png" alt="Biblioteca - uva" height="60" width="80">
+			<b class="tituloInicio"><u>Usuarios</u></b>
+			<br/>
+			<br/>
+			</div>
+			<b class="tituloInicioMovil visible-xs text-center"><u>Usuarios</u></b>
+			
+			
+			
+		<form  class="form-horizontal"  role="form"> 
+			<div class="form-group">
+				<label class="col-lg-2  col-md-2 col-sm-2 control-label"> DNI: </label>
+				<div class="col-lg-10 col-md-10 col-sm-10">
+					<input type="text" ng-model="dni" class="form-control" >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2  col-md-2 col-sm-2 control-label"> Nombre: </label>
+				<div class="col-lg-10 col-md-10 col-sm-10">
+					<input type="text" ng-model="nombre" class="form-control" >
+				</div>
+			</div>		
+			<input type="button" class="btn btn-lg btn-primary center-block" ng-click="buscaUsuarios()" value="Buscar"/>
+		</form>
+
+
+		<table class="table">
+			<tr>
+				<td><strong>#</strong></td>
+  				<td><strong>Nombre</strong></td>
+  				<td><strong>DNI</strong></td>
+  				<td><strong>Editar</strong></td>
+  				<td><strong>Eliminar</strong></td>
+			</tr>
+			<tr ng-repeat="usu in usuarios2">
+				<td>{{contador*MAX_USUARIOS_PANTALLA-MAX_USUARIOS_PANTALLA+$index+1}}</td>
+				<td>{{usu.nombre}}</td>
+				<td>{{usu.dni}}</td>
+				<td><button class="btn btn-primary" ng-click="perfilUsuario($index)">
+				<span class="glyphicon glyphicon-pencil"></span>
+			</button></td>
+				<td>	<button class="btn btn-danger" ng-click="deleteUsuario($index)">
+				<span class="glyphicon glyphicon-remove"></span>
+			</button></td>
+			</tr>
+		</table>
+		<div class="text-center"/>
+		<button class="btn-lg btn-success" ng-click="anteriores()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</button>
+		<button class="btn-lg btn-success" ng-click="siguientes()">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</button>
+		</div>	
+		<h4 class="text-center text-success">{{resultado()}} usuarios de {{usuarios.length}} usuarios totales</h4>
+		
+		
+		
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
+			<br/>
+			<br/>
+			<prestamos></prestamos>
+		</div>
+</div>
+		</div>
+	<div class="cuerpo container">
+		<br/><br/>
+	<catalogo></catalogo>
+	<br/><br/>
+	</div>
+		<pie-pagina></pie-pagina>
+	</body>
+</html>

@@ -1,0 +1,129 @@
+<html ng-app="nuevoEjemplarManual">
+	<head>
+		<title>BIBLIOTECA</title>
+		<link rel="shortcut icon" href="imagenes/libroVerde.png">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="css2/biblioteca.css" type="text/css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
+		<script src="componentes/prestamos/prestamos.js"></script>
+		<script src="componentes/footer/footer.js"></script>
+		<script src="js2/nuevoEjemplarManual.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+
+  </head>
+	<body>
+	<barra-navegacion></barra-navegacion>
+	<div class="container cuerpo">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 ">
+			<div  class="container-fluid " ng-controller="Ejemplar2">
+				<h2 class="text-primary text-center"><u><b>Añadir Nuevo Ejemplar Manualmente</b></u></h2>
+				<br/>
+				<div >
+					<form  class="form-horizontal" role="form" >
+						<div class="form-group">
+							<label class="col-lg-2 col-md-2 col-sm-2 control-label"> ISBN 10: </label>
+							<div class="col-lg-10 col-md-10 col-sm-10">
+								<input type="text" ng-model="isbn10" class="form-control" >
+							</div>
+						</div>
+						<h5 ng-show="errorISBN10" class="texto-error text-center">{{textoErrorISBN10}}</h5>
+<div class="form-group">
+							<label class="col-lg-2 col-md-2 col-sm-2 control-label"> ISBN 13: </label>
+							<div class="col-lg-10 col-md-10 col-sm-10">
+								<input type="text" ng-model="isbn13" class="form-control" >
+							</div>
+						</div>
+						<h5 ng-show="errorISBN13" class="texto-error text-center">{{textoErrorISBN13}}</h5>
+						
+						<div class="form-group">
+							<label class="col-lg-2 col-md-2 col-sm-2 control-label"> <b> Titulo: </b></label>
+							<div class="col-lg-10 col-md-10 col-sm-10">
+								<input type="text" ng-model="titulo" class="form-control">
+							</div>
+							<br ng-show="errorTitulo"/>
+							<br ng-show="errorTitulo"/>
+							<h5 ng-show="errorTitulo" class="texto-error text-center">El titulo no puede ser una cadena vacia</h5>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 col-md-2 col-sm-2 control-label"> <b> Codigo: </b></label>
+							<div class="col-lg-10 col-md-10 col-sm-10">
+								<input type="text" ng-model="codigo" class="form-control">
+							</div>
+							<br ng-show="errorCodigo"/>
+							<br ng-show="errorCodigo"/>
+							<h5 ng-show="errorCodigo" class="texto-error text-center">El codigo no puede ser una cadena vacia</h5>
+						<h5 ng-show="errorCodigo2" class="texto-error text-center">{{textoErrorCodigo}}</h5>
+						</div>
+					
+							
+						
+						<div class="form-group">
+						<div class="ui-widget">
+						 <label for="autores" class="col-lg-2 col-md-2 col-sm-2 control-label">Añade autor: </label>
+						 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
+						<input id="autores" ng-model="autor" class="form-control ">
+						</div>
+						</div>
+						<button class="btn-lg btn-success hidden-xs" ng-click="anadeAutor()" >
+						<span class="glyphicon glyphicon-plus"></span>
+						</button>
+						<button class="btn-sm btn-success visible-xs" ng-click="anadeAutor()" >
+						<span class="glyphicon glyphicon-plus"></span>
+						</button>
+							</br></br>
+						<div class="text-center" ng-repeat="autor in autoresFinales">
+						<b >{{autor}}</b>
+						<button class="btn-sm btn-danger" ng-click="eliminaAutor($index)" >
+						<span class="glyphicon glyphicon-remove"></span>
+						</button>
+						
+						</div>
+						<h3 class="texto-error text-center hidden-xs">{{errorAutor}}</h3>
+						<h4 class="texto-error text-center visible-xs">{{errorAutor}}</h4>
+						</div>
+						
+						<div class="text-center" >
+					<label ><b>Categorias:</b> </label>
+					<label class="checkbox-inline" ng-repeat="categoria in categorias" ><input type="checkbox" name="{{categoria.nombre}}">{{categoria.nombre}}</label>
+				</div>
+						<br/>
+						<br/>
+						<div class="text-center">
+						<input type="button" ng-click="addEjemplar()" value="Añadir Ejemplar" class="btn btn-lg btn-primary "/>
+						<input type="button" ng-click="cancelar()" value="Cancelar" class="btn btn-lg btn-danger "/>
+						</div>
+					</form>
+				</div>
+			</div>
+			<br/>
+		</div>
+		
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
+			<br/>
+			<br/>
+			<prestamos></prestamos>
+		</div>
+	</div>	
+	
+	<pie-pagina></pie-pagina>
+	<script>
+		function autores(autores) {
+			console.log("ola");
+			var availableAutores=autores;
+			$( "#autores" ).autocomplete({
+      source: availableAutores
+    });
+}
+	</script>
+</body>
+
+
+</html>

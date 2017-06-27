@@ -1,0 +1,80 @@
+<html ng-app="busquedaLibros">
+	<head>
+		<title>BIBLIOTECA</title>
+		<link rel="shortcut icon" href="imagenes/libroVerde.png">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="css2/biblioteca.css" type="text/css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="js2/busquedaLibros.js"></script>
+		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
+		<script src="componentes/prestamos/prestamos.js"></script>
+		<script src="componentes/footer/footer.js"></script>
+		<script src="componentes/busquedas/busquedas.js"></script>
+		<script src="componentes/catalogo/catalogo.js"></script>
+	</head>
+	<body ng-controller="Busqueda1">
+	<barra-navegacion></barra-navegacion>
+	<busqueda></busqueda>
+
+	<div class="container cuerpo">
+		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 ">
+			
+			<br/>
+			<div class="caja-titulo hidden-xs">
+			<img  itemprop="logo" src="imagenes/libro.png" alt="Biblioteca - uva" height="60" width="80">
+			<b class="tituloInicio"><u>Busqueda Libros</u></b>
+			<br/>
+			<br/>
+			</div>
+			<b class="tituloInicioMovil visible-xs text-center"><u>Busqueda Libros</u></b>
+			
+			<div class="bordes-busqueda-libros">
+				<h3 class="text-success text-center">Para la cadena:"{{busqueda}}"  se han encontrado {{libros.length}} libros </h3>
+			</div>
+			<div  ng-repeat="libro in libros2" class="bordes-busqueda-libros" >
+			
+				<img ng-src="{{libro.urlfoto}}" class="libro-busqueda col-lg-3 col-md-3 col-sm-3 foto-libro" height="177" width="128">
+			
+			
+				
+					<br/>
+				<strong>Titulo: {{libro.titulo}}</strong>
+					<h5>ISBN10: {{libro.isbn10}}</h5>
+					<h5>ISBN13: {{libro.isbn13}}</h5>
+					<h5/><b>Categorias: </b> {{libro.categorias}}</h5>
+					<h5/><b>Autores: </b> {{libro.autores}}</h5>
+					<input type="button" class="btn btn-success" value="ver ejemplares" ng-click="muestraEjemplares($index)"/>
+					</br></br>					
+				
+			</div>	
+			
+			<h4 class="text-center text-success">{{resultado()}} usuarios de {{libros.length}} usuarios totales</h4>
+				<div class=" text-center"  >
+		<button class="btn-lg btn-success" ng-click="anteriores()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</button>
+		<button class="btn-lg btn-success" ng-click="siguientes()">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</button>
+				</div>
+			
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
+			<prestamos></prestamos>
+		</div>
+	</div>
+		
+	<div class="cuerpo container">
+		<br/><br/>
+	<catalogo></catalogo>
+	<br/><br/>
+	</div>
+	
+	<pie-pagina></pie-pagina>
+</body>
+</html>
