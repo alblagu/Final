@@ -15,6 +15,23 @@ import java.util.ArrayList;
  * @author alberto
  */
 public class GestorLibro {
+	
+	
+	/**
+	 * Obtiene un libro a partir de su id
+	 * @param id es el id a partir del cual encuentras el libro.
+	 * @return el libro encontrado o null si no lo encuentra.
+	 * @throws java.lang.ClassNotFoundException al ocurrir algun problema con la base de datos.
+	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
+	 */
+	public static Libro selectLibroByID(int id) throws ClassNotFoundException, SQLException {
+        	String laQuery = ("select * from LIBRO where id="+id);
+       		ResultSet rs = ConexionBD.getInstancia().select(laQuery);
+		while(rs.next())
+			return new Libro(rs.getInt("id"),rs.getString("isbn10"), rs.getString("isbn13"), rs.getString("titulo"),rs.getString("urlfoto"),GestorAutorLibro.selectAutoresLibro(rs.getInt("id")),GestorCategoriaLibro.selectCategoriasLibro(rs.getInt("id")));
+		return null;
+	}
+	
 	/**
 	 *  
 	 * @return
@@ -23,10 +40,10 @@ public class GestorLibro {
 	 */
 	public static ArrayList<Libro> selectAll() throws SQLException, ClassNotFoundException {
         	ArrayList<Libro> libros= new ArrayList<>();
-        	String laQuery = ("select * from BIBLIOTECA.LIBRO");
+        	String laQuery = ("select * from LIBRO");
         	ResultSet rs = ConexionBD.getInstancia().select(laQuery);
         	while (rs.next()) {
-			libros.add(new Libro(rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto")));
+			libros.add(new Libro(rs.getInt("id"),rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto"),GestorAutorLibro.selectAutoresLibro(rs.getInt("id")),GestorCategoriaLibro.selectCategoriasLibro(rs.getInt("id"))));
         	}
         	return libros;
     	}
@@ -38,12 +55,33 @@ public class GestorLibro {
 	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
 	 */
 	public static Libro selectLibroByISBN(String isbn) throws ClassNotFoundException, SQLException {
-        	String laQuery = ("select * from BIBLIOTECA.LIBRO where isbn10='"+isbn+"' OR isbn13='"+isbn+"'");
+        	String laQuery = ("select * from LIBRO where isbn10='"+isbn+"' OR isbn13='"+isbn+"'");
        		ResultSet rs = ConexionBD.getInstancia().select(laQuery);
 		while(rs.next())
-			return new Libro(rs.getString("isbn10"), rs.getString("isbn13"), rs.getString("titulo"),rs.getString("urlfoto"));
+			return new Libro(rs.getInt("id"),rs.getString("isbn10"), rs.getString("isbn13"), rs.getString("titulo"),rs.getString("urlfoto"),GestorAutorLibro.selectAutoresLibro(rs.getInt("id")),GestorCategoriaLibro.selectCategoriasLibro(rs.getInt("id")));
 		return null;
 	}
+	
+	
+	/**
+	 * Obtiene un libro a partir de sus dos isbn. 
+	 * @param isbn10 es el isbn10 del libro.
+	 * @param isbn10 es el isbn13 del libro.
+	 * @return el libro encontrado o null si no lo encuentra.
+	 * @throws java.lang.ClassNotFoundException al ocurrir algun problema con la base de datos.
+	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
+	 */
+	public static Libro selectLibroByISBNs(String isbn10, String isbn13) throws ClassNotFoundException, SQLException {
+        	String laQuery = ("select * from LIBRO where isbn10='"+isbn10+"' AND isbn13='"+isbn13+"'");
+       		ResultSet rs = ConexionBD.getInstancia().select(laQuery);
+		while(rs.next())
+			return new Libro(rs.getInt("id"),rs.getString("isbn10"), rs.getString("isbn13"), rs.getString("titulo"),rs.getString("urlfoto"),GestorAutorLibro.selectAutoresLibro(rs.getInt("id")),GestorCategoriaLibro.selectCategoriasLibro(rs.getInt("id")));
+		return null;
+	}
+	
+	
+	
+	
 	/**
 	 * Añade un nuevo libro al sistema.
 	 * @param libro es el libro que va a ser añadido.
@@ -51,12 +89,14 @@ public class GestorLibro {
 	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
 	 */
 	public static void create(Libro libro) throws ClassNotFoundException, SQLException {
-		String laQuery=("insert into biblioteca.LIBRO(ISBN10,ISBN13, TITULO,URLFOTO) values('"+libro.getISBN10()+"','" + libro.getISBN13()+ "','" + libro.getTitulo()+ "','"+libro.getUrlFoto()+"')");
+		String laQuery=("insert into LIBRO(id,ISBN10,ISBN13, TITULO,URLFOTO) values("+libro.getId()+",'"+libro.getISBN10()+"','" + libro.getISBN13()+ "','" + libro.getTitulo()+ "','"+libro.getUrlFoto()+"')");
 		ConexionBD.getInstancia().update(laQuery);
+		GestorAutorLibro.create(libro.getId(), libro.getAutores());
+		GestorCategoriaLibro.create(libro.getId(), libro.getCategorias());
 	}
 
 	public static void deleteByISBN(String isbn) throws ClassNotFoundException, SQLException {
-        	String laQuery = ("delete * from BIBLIOTECA.LIBRO where isbn10='"+isbn+"' OR isbn13='"+isbn+"'");
+        	String laQuery = ("delete * from LIBRO where isbn10='"+isbn+"' OR isbn13='"+isbn+"'");
 		ConexionBD.getInstancia().update(laQuery);
 	}
 
@@ -72,10 +112,10 @@ public class GestorLibro {
 	 */
 	public static ArrayList<Libro> selectLibrosByISNB(String isbn) throws ClassNotFoundException, SQLException{
         	ArrayList<Libro> libros= new ArrayList<>();
-        	String laQuery = ("select * from BIBLIOTECA.LIBRO where isbn10 LIKE '%"+isbn+"%' OR isbn13 LIKE '%"+isbn+"%'");
+        	String laQuery = ("select * from LIBRO where isbn10 LIKE '%"+isbn+"%' OR isbn13 LIKE '%"+isbn+"%'");
         	ResultSet rs = ConexionBD.getInstancia().select(laQuery);
         	while (rs.next()) {
-			libros.add(new Libro(rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto")));
+			libros.add(new Libro(rs.getInt("id"),rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto"),GestorAutorLibro.selectAutoresLibro(rs.getInt("id")),GestorCategoriaLibro.selectCategoriasLibro(rs.getInt("id"))));
         	}
         	return libros;
 		
@@ -92,25 +132,60 @@ public class GestorLibro {
 	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
 	 */
 	public static ArrayList<Libro> selectLibrosByTitulo(String titulo) throws ClassNotFoundException, SQLException{
-        	String laQuery = ("select * from BIBLIOTECA.LIBRO where titulo LIKE '%"+titulo+"%'");
-        	//String laQuery = ("select * from BIBLIOTECA.LIBRO where  UPPER(translate(titulo, ‘áéíóúÁÉÍÓÚ’, ‘aeiouAEIOU’))  LIKE UPPER(translate('%"+titulo+"%', ‘áéíóúÁÉÍÓÚ’, ‘aeiouAEIOU’");
+        	String laQuery = ("select * from LIBRO where titulo ILIKE '%"+titulo+"%'");
         	ResultSet rs = ConexionBD.getInstancia().select(laQuery);		
         	ArrayList<Libro> libros= new ArrayList<Libro>();
         	while (rs.next()) {
-			libros.add(new Libro(rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto")));
+			libros.add(new Libro(rs.getInt("id"),rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto"),GestorAutorLibro.selectAutoresLibro(rs.getInt("id")),GestorCategoriaLibro.selectCategoriasLibro(rs.getInt("id"))));
         	}
         	return libros;
 		
 	}
 	
 	
-	public static ArrayList<Libro> selectLibrosAleatorios() throws SQLException, ClassNotFoundException{
-//		String laQuery="SELECT TOP 6 from BIBLIOTECA.LIBRO";
-//		ResultSet rs = ConexionBD.getInstancia().select(laQuery);
-//	ArrayList<Libro> libros= new ArrayList<Libro>();
-//		while (rs.next()) {
-//			libros.add(new Libro(rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto")));
-//        	}
-        	return selectAll();
+	public static ArrayList<Libro> selectLibrosBusqueda(String cadena,String tipoBusqueda, ArrayList<String> categorias)throws ClassNotFoundException, SQLException{
+		String laQuery="select * from LIBRO l, CATEGORIA_LIBRO c ";
+		if("titulo".equals(tipoBusqueda)){
+			laQuery+= "where l.titulo ilike '%"+cadena+"%' ";
+		}
+		else if("isbn".equals(tipoBusqueda)){
+			laQuery+= "where (l.isbn10 ilike '%"+cadena+"%' OR l.isbn13 '%"+cadena+"%') ";
+		}
+		else{
+			laQuery+= ",AUTOR_LIBRO a where l.id=a.libro AND a.autor ilike '%"+cadena+"%'";
+		}
+		if (!categorias.isEmpty()){
+		laQuery+="AND (l.id=c.categoria AND (";
+		for(int i=0;i<categorias.size();i++){
+			laQuery+= "c.categoria='"+categorias.get(i)+"' ";
+			if(!(categorias.size()-1==i)){
+				laQuery+=" OR ";
+			}
+		}
+		laQuery+=" ))";
+		}
+		System.out.println(laQuery);
+		
+		ResultSet rs=ConexionBD.getInstancia().select(laQuery);
+		
+		ArrayList<Libro> libros= new ArrayList<Libro>();
+        	while (rs.next()) {
+			libros.add(new Libro(rs.getInt("id"),rs.getString("isbn10"),rs.getString("isbn13"),rs.getString("titulo"),rs.getString("urlfoto"),GestorAutorLibro.selectAutoresLibro(rs.getInt("id")),GestorCategoriaLibro.selectCategoriasLibro(rs.getInt("id"))));
+        	}
+		System.out.println(libros.size());
+        	return libros;	
+	}
+	
+	
+
+	
+	
+	public static int selectID() throws ClassNotFoundException, SQLException{
+		String laQuery = ("select max(id)  from LIBRO");
+		ResultSet rs =ConexionBD.getInstancia().select(laQuery);
+		
+		rs.next();
+		return rs.getInt("max")+1;
+		
 	}
 }

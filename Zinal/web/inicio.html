@@ -1,4 +1,4 @@
-<html ng-app="inicio">
+<html ng-app="app">
 	<head>
 		<title>BIBLIOTECA</title>
 		<link rel="shortcut icon" href="imagenes/libroVerde.png">
@@ -10,12 +10,13 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		<script src="js2/inicio.js"></script>
+		<script src="js2/app.js"></script>
 		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
 		<script src="componentes/prestamos/prestamos.js"></script>
 		<script src="componentes/footer/footer.js"></script>
 		<script src="componentes/busquedas/busquedas.js"></script>
-		<script src="componentes/catalogo/catalogo.js"></script>
+		<script src="componentes/novedades/novedades.js"></script>
+		
 		<script>
 			function deshabilitaRetroceso(){
     				window.location.hash="no-back-button";
@@ -56,7 +57,7 @@ Además podrás estar al tanto de tus préstamos para que no se te pase devolver
 	</div>
 	<div class="cuerpo container">
 		<br/><br/>
-	<catalogo></catalogo>
+	<novedades></novedades>
 	<br/><br/>
 	</div>
 	<pie-pagina></pie-pagina>

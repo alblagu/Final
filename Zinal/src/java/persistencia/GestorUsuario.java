@@ -21,7 +21,7 @@ public class GestorUsuario {
 		ResultSet rs =ConexionBD.getInstancia().select(laQuery);
 
 		while(rs.next())
-			return new Usuario(rs.getString("dni"),rs.getString("password"),rs.getString("nombre"),rs.getBoolean("administrador"), rs.getString("telefono")); 
+			return new Usuario(rs.getString("dni"),rs.getString("password"),rs.getString("nombre"),rs.getString("tipoUsuario"), rs.getString("telefono"),rs.getString("email")); 
 		return null;
 	}
 	public static ArrayList<Usuario> selectAllUsuariosByFiltros(String dni,String nombre) throws ClassNotFoundException, SQLException{
@@ -51,13 +51,13 @@ public class GestorUsuario {
 		ArrayList<Usuario> usuarios = new ArrayList<>();
 
 		while(rs.next()){
-			usuarios.add(new Usuario(rs.getString("dni"),rs.getString("password"),rs.getString("nombre"),rs.getBoolean("administrador"), rs.getString("telefono")));
+			usuarios.add(new Usuario(rs.getString("dni"),rs.getString("password"),rs.getString("nombre"),rs.getString("tipoUsuario"), rs.getString("telefono"),rs.getString("email")));
 		}
 		return usuarios;
 	}
 	
 	public static void createUsuario(Usuario nuevo)throws ClassNotFoundException, SQLException{
-		String laQuery=("insert into USUARIO(DNI,PASSWORD,NOMBRE,ADMINISTRADOR,TELEFONO) values('"+nuevo.getDNI()+"','"+nuevo.getPassword()+"','"+nuevo.getNombre()+"','"+nuevo.getAdministrador()+"',"+nuevo.getTelefono()+")");
+		String laQuery=("insert into USUARIO(DNI,PASSWORD,NOMBRE,TIPOUSUARIO,TELEFONO,EMAIL) values('"+nuevo.getDNI()+"','"+nuevo.getPassword()+"','"+nuevo.getNombre()+"','"+nuevo.getTipoUsuario()+"',"+nuevo.getTelefono()+",'"+nuevo.getEmail()+"')");
 		ConexionBD.getInstancia().update(laQuery);
 	}
 

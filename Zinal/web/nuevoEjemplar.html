@@ -1,4 +1,4 @@
-<html ng-app="nuevoEjemplar">
+<html ng-app="app">
 	<head>
 		<title>BIBLIOTECA</title>
 		<link rel="shortcut icon" href="imagenes/libroVerde.png">
@@ -10,11 +10,12 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="js2/app.js"></script>
 		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
 		<script src="componentes/prestamos/prestamos.js"></script>
 		<script src="componentes/busquedas/busquedas.js"></script>
 		<script src="componentes/footer/footer.js"></script>
-		<script src="componentes/catalogo/catalogo.js"></script>
+		<script src="componentes/novedades/novedades.js"></script>
 		<script src="js2/nuevoEjemplar.js"></script>
 	</head>
 	<body>
@@ -35,7 +36,7 @@
 				
 				
 				<div >
-					<form ng-show="!parte" class="form-horizontal" role="form" >
+					<form ng-show="!avanzar" class="form-horizontal" role="form" >
 						<div class="form-group">
 						<label class="col-lg-3 col-md-4 col-sm-4 control-label"> ISBN 10 o 13: </label>
 						<div class="col-lg-8 col-md-8 col-sm-7">
@@ -50,7 +51,7 @@
 						</div>
 						</div>
 					</form>
-					<div ng-show="parte">
+					<div ng-show="avanzar">
 						<h4 class="text-center"> <b> ISBN: {{isbn}}.</b></h4>
 						<h4 class="text-center"> <b> TITULO: {{libro.titulo}}.</b></h4>
 						<br/>
@@ -59,17 +60,23 @@
 						<br/>
 							<form class="form-horizontal" role="form">
 						<div class="form-group">
-							<label class="col-lg-2 col-md-3 col-sm-4 control-label">Codigo:</label>
+							<label class="col-lg-2 col-md-3 col-sm-4 control-label">Codigo(*):</label>
 							<div class="col-lg-8 col-md-8 col-sm-6">
 								<input type="text" ng-model="codigo" class="form-control">
 							</div>
 						</div>
+								<div class="form-group">
+							<label class="col-lg-2 col-md-3 col-sm-4 control-label">Localizacion(*):</label>
+							<div class="col-lg-8 col-md-8 col-sm-6">
+								<input type="text" ng-model="localizacion" class="form-control">
+							</div>
+						</div>
 									</form>
-						<br/>
+					
 						<h3 class="texto-error text-center">{{textoError}}</h3>
 						<div class="text-center" ng-show="libro.internet">
 					<label ><b>Categorias:</b> </label>
-					<label class="checkbox-inline" ng-repeat="categoria in categorias" ><input type="checkbox" name="{{categoria.nombre}}">{{categoria.nombre}}</label>
+					<label class="checkbox-inline" ng-repeat="categoria in categorias" ><input type="checkbox" name="{{categoria}}">{{categoria}}</label>
 				</div>
 						<br/>
 					
@@ -88,14 +95,12 @@
 		</div>
 		
 		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
-			<br/>
-			<br/>
 			<prestamos></prestamos>
 		</div>
 	</div>	
 	<div class="cuerpo container">
 		<br/><br/>
-	<catalogo></catalogo>
+	<novedades></novedades>
 	<br/><br/>
 	</div>
 	<pie-pagina></pie-pagina>

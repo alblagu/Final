@@ -24,4 +24,31 @@ public class GestorCategoria {
 		}
 		return categorias;
 	}
+	
+	public static String selectCategoria(String nombre) throws ClassNotFoundException, SQLException{
+		String laQuery="select * from categoria where nombre='"+nombre+"'";
+		ResultSet rs=ConexionBD.getInstancia().select(laQuery);
+		
+		while(rs.next()){
+			return rs.getString("nombre");
+		}
+		return null;
+	}
+	
+	public static void createCategoria(String nombre) throws ClassNotFoundException, SQLException{
+		String laQuery="insert into Categoria(nombre) Values('"+nombre+"')";
+		ConexionBD.getInstancia().update(laQuery);
+	}
+	
+	public static void deleteCategoria(String nombre) throws ClassNotFoundException, SQLException{
+		GestorCategoriaLibro.deleteCategoria(nombre);
+		String laQuery="delete from Categoria where nombre='"+nombre+"'";
+		ConexionBD.getInstancia().update(laQuery);
+	}
+	
+	public static void updateCategoria(String nombreAntiguo, String nombreNuevo) throws ClassNotFoundException, SQLException{
+		createCategoria(nombreNuevo);
+		GestorCategoriaLibro.updateCategoria(nombreAntiguo,nombreNuevo);
+		deleteCategoria(nombreAntiguo);
+	}
 }

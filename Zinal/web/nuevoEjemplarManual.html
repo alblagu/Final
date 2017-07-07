@@ -1,4 +1,4 @@
-<html ng-app="nuevoEjemplarManual">
+<html ng-app="app">
 	<head>
 		<title>BIBLIOTECA</title>
 		<link rel="shortcut icon" href="imagenes/libroVerde.png">
@@ -9,20 +9,21 @@
 		<link rel="stylesheet" href="css2/biblioteca.css" type="text/css"/>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>		   <script src="js2/app.js"></script>	
 		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
+		<script src="componentes/busquedas/busquedas.js"></script>
 		<script src="componentes/prestamos/prestamos.js"></script>
 		<script src="componentes/footer/footer.js"></script>
+		<script src="componentes/novedades/novedades.js"></script>
 		<script src="js2/nuevoEjemplarManual.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-
   </head>
 	<body>
 	<barra-navegacion></barra-navegacion>
+	<busqueda></busqueda>
 	<div class="container cuerpo">
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 ">
+		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 ">
 			<div  class="container-fluid " ng-controller="Ejemplar2">
 				<h2 class="text-primary text-center"><u><b>Añadir Nuevo Ejemplar Manualmente</b></u></h2>
 				<br/>
@@ -52,6 +53,23 @@
 							<br ng-show="errorTitulo"/>
 							<h5 ng-show="errorTitulo" class="texto-error text-center">El titulo no puede ser una cadena vacia</h5>
 						</div>
+						
+						
+						
+						<div class="form-group">
+							<label class="col-lg-2 col-md-2 col-sm-2 control-label"> <b> Localizacion: </b></label>
+							<div class="col-lg-10 col-md-10 col-sm-10">
+								<input type="text" ng-model="localizacion" class="form-control">
+							</div>
+							<br ng-show="errorLocalizacion"/>
+							<br ng-show="errorLocalizacion"/>
+							<h5 ng-show="errorLocalizacion" class="texto-error text-center">La localizacion no puede ser una cadena vacia</h5>
+						</div>
+						
+						
+						
+						
+						
 						<div class="form-group">
 							<label class="col-lg-2 col-md-2 col-sm-2 control-label"> <b> Codigo: </b></label>
 							<div class="col-lg-10 col-md-10 col-sm-10">
@@ -92,7 +110,7 @@
 						
 						<div class="text-center" >
 					<label ><b>Categorias:</b> </label>
-					<label class="checkbox-inline" ng-repeat="categoria in categorias" ><input type="checkbox" name="{{categoria.nombre}}">{{categoria.nombre}}</label>
+					<label class="checkbox-inline" ng-repeat="categoria in categorias" ><input type="checkbox" name="{{categoria}}">{{categoria}}</label>
 				</div>
 						<br/>
 						<br/>
@@ -106,13 +124,17 @@
 			<br/>
 		</div>
 		
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
+		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
 			<br/>
 			<br/>
 			<prestamos></prestamos>
 		</div>
 	</div>	
-	
+		<div class="cuerpo container">
+		<br/><br/>
+	<novedades></novedades>
+	<br/><br/>
+	</div>
 	<pie-pagina></pie-pagina>
 	<script>
 		function autores(autores) {

@@ -1,20 +1,34 @@
-angular.module("busquedaEjemplares",["barraNavegacion","piePagina","prestamos","catalogo","busqueda"])
-.controller("Busqueda1",function($scope,$http){
+angular.module("app")
+.controller("BusquedaEjemplaresController",function($scope,$http){
 	$scope.ejemplares=[];
-	$scope.isbn=getParameterByName("isbn",window.location);
+	$scope.id=getParameterByName("id",window.location);
 		$http({
 			method: 'GET',
-			url: 'http://localhost:8080/TFG3/webresources/generic/ejemplares/'+$scope.isbn
+			url: 'http://localhost:8080/Zinal/webresources/ejemplares/libro/'+$scope.id
 		}).then(function successCallback(response) {
 			$scope.ejemplares=response.data;
   		});
 		
 		$http({
 			method: 'GET',
-			url: 'http://localhost:8080/TFG3/webresources/generic/libro2/'+$scope.isbn
+			url: 'http://localhost:8080/Zinal/webresources/libros/libro/'+$scope.id
 		}).then(function successCallback(response) {
 			$scope.libro=response.data;
   		});
+		
+		
+		$scope.getUsuario=function(indice){
+			$scope.ejemplar=$scope.ejemplares[indice];
+			console.log($scope.ejemplar);
+			if(!$scope.ejemplar.disponible){
+				$http({
+			method: 'GET',
+			url: 'http://localhost:8080/Zinal/webresources/usuarios/ejemplar/'+$scope.ejemplar.codigo
+		}).then(function successCallback(response) {
+			$scope.usuario=response.data;
+  		});
+	}
+		};
 });
 
 	function getParameterByName(name, url) {

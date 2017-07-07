@@ -1,48 +1,44 @@
-angular.module("busquedaLibros",["barraNavegacion","piePagina","prestamos","busqueda","catalogo"])
-	.controller("Busqueda1", function ($scope, $http) {
-		$scope.MAX_LIBROS_PANTALLA=2;
+angular.module("app")
+	.controller("BusquedaLibrosController", function ($scope, $http) {
+		$scope.MAX_LIBROS_PANTALLA=12;
 		$scope.contador=0;
 		$scope.libros = [];
 		$scope.libros2  = [];
 		$scope.busqueda = getParameterByName("busqueda", window.location);
+		$scope.vista=true;
+		
+		$scope.cambiaVista=function(){
+			$scope.vista=!$scope.vista;
+		};
 
-		if (!isNaN($scope.busqueda)) {
-			//Busqueda por ISBN
+		console.log($scope.busqueda);
+			
 			$http({
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},	
 				method: 'GET',
-				url: 'http://localhost:8080/TFG3/webresources/generic/libros/busqueda/' + $scope.busqueda
+				url: 'http://localhost:8080/Zinal/webresources/libros/busqueda/' + $scope.busqueda
 			}).then(function successCallback(response) {
+				
 				$scope.libros = response.data;
+				console.log($scope.libros);
 				$scope.libros2=[];
 				$scope.contador=0;
 				$scope.siguientes();
 				
-			},
-				function errorCallback(response) {
-					console.log(response);
-				});
-		} else { //BUSQUEDA por titulo
-			$http({
-				method: 'GET',
-				url: 'http://localhost:8080/TFG3/webresources/generic/libros/busqueda2/' + $scope.busqueda
-			}).then(function successCallback(response) {
+			});
 				
-				$scope.libros = response.data;
-				$scope.libros2=[];
-				$scope.contador=0;
-				$scope.siguientes();
-				
-			},
-				function errorCallback(response) {
-					console.log(response);
-				});
 
-		}
+			
+
+		
 		
 		
 
 		$scope.muestraEjemplares = function (indice) {
-			window.location = "http://localhost:8080/TFG3/busquedaEjemplares.html?isbn=" + $scope.libros2[indice].isbn10;
+			window.location = "http://localhost:8080/Zinal/busquedaEjemplares.html?id=" + $scope.libros2[indice].id;
 		};
 
 		$scope.siguientes = function (){

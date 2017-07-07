@@ -1,4 +1,4 @@
-<html ng-app="nuevoUsuario">
+<html ng-app="app">
 	<head>
 		<title>BIBLIOTECA</title>
 		<link rel="shortcut icon" href="imagenes/libroVerde.png">
@@ -10,12 +10,13 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+				<script src="js2/app.js"></script>
 		<script src="js2/nuevoUsuario.js"></script>
 		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
 		<script src="componentes/prestamos/prestamos.js"></script>
 		<script src="componentes/footer/footer.js"></script>
 		<script src="componentes/busquedas/busquedas.js"></script>
-		<script src="componentes/catalogo/catalogo.js"></script>
+		<script src="componentes/novedades/novedades.js"></script>
 	</head>
 	<body> 
 		<barra-navegacion></barra-navegacion>	
@@ -63,24 +64,32 @@
 					</div>
 				</div>	
 				<h5 ng-show="errorTelefono" class="text-danger text-center">El campo telefono tiene que tener 9 digitos numericos</h5>
+					<div class="form-group">
+					<label class="col-lg-2 col-md-2 col-sm-2 control-label"> Email(*): </label>
+					<div class="col-lg-10 col-md-10 col-sm-10">
+						<input type="text" ng-model="email" class="form-control" >
+					</div>
+					</div><h5 ng-show="errorEmail" class="text-danger text-center">El email tiene que tener este formato: **@**</h5>
 				<h5 ng-show="errorDNIRepetido" class="texto-error text-center">{{textoErrorDNIRepetido}}</h5>
-				
-				
+				<div class="text-center radio">
+					
+				<label ><b>Tipo Usuario:</b> </label>
+				<label class="radio-inline"><input type="radio" name="optradio" ng-click="cambiaTipoUsuario()" checked="checked">Profesor</label>
+<label class="radio-inline"><input type="radio" name="optradio" ng-click="cambiaTipoUsuario()">Alumno</label>
+				</div>
 				<br/>
 				<input type="button" class="center-block btn btn-primary btn-lg" ng-click="nuevoUsuario()" value="Nuevo Usuario">
 			</form>
 		</div>
 
 		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
-			<br/>
-			<br/>
 			<prestamos></prestamos>
 		</div>
 		</div>
 	</div>
 	<div class="cuerpo container">
 		<br/><br/>
-	<catalogo></catalogo>
+	<novedades></novedades>
 	<br/><br/>
 	</div>
 	<pie-pagina></pie-pagina>	

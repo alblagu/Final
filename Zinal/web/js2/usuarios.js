@@ -1,12 +1,11 @@
-angular.module("usuarios", ["barraNavegacion","busqueda","piePagina","prestamos","catalogo"])
+angular.module("app")
 	.controller("UsuariosController", function ($scope, $http) {
 
-		$scope.usuario = JSON.parse(localStorage.getItem('usuario'));
 		$scope.usuarios = [];
 		$scope.usuarios2=[];
 		$scope.dni = "";
 		$scope.nombre = "";
-		$scope.MAX_USUARIOS_PANTALLA=6;
+		$scope.MAX_USUARIOS_PANTALLA=8;
 		$scope.contador=0;
 
 	
@@ -19,7 +18,7 @@ angular.module("usuarios", ["barraNavegacion","busqueda","piePagina","prestamos"
 				};
 			$http({
 				method: 'GET',
-				url: 'http://localhost:8080/TFG3/webresources/generic/usuarios/'+JSON.stringify(usuario)
+				url: 'http://localhost:8080/Zinal/webresources/usuarios/usuarios/'+JSON.stringify(usuario)
 			}).then(function successCallback(response) {
 				$scope.usuarios = response.data;
 				$scope.usuarios2=[];
@@ -27,6 +26,7 @@ angular.module("usuarios", ["barraNavegacion","busqueda","piePagina","prestamos"
 				$scope.siguientes();
 			},
 				function errorCallback(response) {
+					
 				});
 		};
 		
@@ -36,7 +36,7 @@ angular.module("usuarios", ["barraNavegacion","busqueda","piePagina","prestamos"
 			if (confirm("Estas seguro que quieres eliminar al usuario " + $scope.usuarios2[index].nombre + " " + $scope.usuarios2[index].apellidos)) {
 				$http({
 					method: 'DELETE',
-					url: 'http://localhost:8080/TFG3/webresources/generic/usuario/' + $scope.usuarios2[index].dni
+					url: 'http://localhost:8080/Zinal/webresources/usuarios/usuario/' + $scope.usuarios2[index].dni
 				}
 				).then(function successCallback(response) {
 					alert("Usuario Eliminado Correctamente");
@@ -49,7 +49,7 @@ angular.module("usuarios", ["barraNavegacion","busqueda","piePagina","prestamos"
 		};
 
 		$scope.perfilUsuario= function(index){
-			window.location='http://localhost:8080/TFG3/usuarioPerfil.html?dni='+$scope.usuarios2[index].dni;
+			window.location='http://localhost:8080/Zinal/usuarioPerfil.html?dni='+$scope.usuarios2[index].dni;
 		};
 
 		$scope.siguientes=function(){

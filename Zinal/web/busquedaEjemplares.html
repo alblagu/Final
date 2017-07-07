@@ -1,5 +1,6 @@
-<html ng-app="busquedaEjemplares">
+<html ng-app="app">
 	<head>
+		<link rel="shortcut icon" href="imagenes/libroVerde.png">
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>
@@ -8,14 +9,15 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="js2/app.js"></script>
 		<script src="js2/busquedaEjemplares.js"></script>
 		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
 		<script src="componentes/prestamos/prestamos.js"></script>
 		<script src="componentes/footer/footer.js"></script>
 		<script src="componentes/busquedas/busquedas.js"></script>
-		<script src="componentes/catalogo/catalogo.js"></script>
+		<script src="componentes/novedades/novedades.js"></script>
 	</head>
-	<body ng-controller="Busqueda1">
+	<body ng-controller="BusquedaEjemplaresController">
 	<barra-navegacion></barra-navegacion>
 	<busqueda></busqueda>
 
@@ -33,46 +35,90 @@
 			<div>
 				<img ng-src="{{libro.urlfoto}}" class="libro-busqueda col-lg-3 col-md-3 col-sm-3 foto-libro" height="177" width="128">
 				<div>
-					</br></br>
-				<strong>Titulo: {{libro.titulo}}</strong>
-					<h5>ISBN10: {{libro.isbn10}}</h5>
-					<h5>ISBN13: {{libro.isbn13}}</h5>
-					<h5/><b>Categorias: </b> {{libro.categorias}}</h5>
-					<h5/><b>Autores: </b> {{libro.autores}}</h5>
+				<h5><b>Titulo:</b> {{libro.titulo}}</h5>
+				<h5><b>ISBN10:</b> {{libro.isbn10}}</h5>
+				<h5><b>ISBN13:</b> {{libro.isbn13}}</h5>
+					<h5/><b>Categorias: </b> {{libro.categorias.toString()}}</h5>
+					<h5/><b>Autores: </b> {{libro.autores.toString()}}</h5>
+					<button class="btn btn-primary" ng-click="perfilUsuario($index)">
+						<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+							<button class="btn btn-danger" ng-click="deleteUsuario($index)">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
 				</div>
 			
 			</div>	
 				
 	
-			<ul class="hidden-xs">
-				<li class="list-group-item fondo-titulo titulo-ejemplares ejemplares"><h4 class="text-center  "><b >Ejemplares</b></h4></li>
-			<li class="list-group-item ejemplares" ng-repeat="ejemplar in ejemplares">
-				<h4><b>CODIGO: </b>{{ejemplar.codigo}}</h4>
-				<h4><b> DISPONIBLE:</b> {{ejemplar.disponible?"SI":"NO"}}</h4>
-				<span class="badge" >{{$index+1}}</span>
-				<br/>
-			</li>
-			</ul>
-			<ul class="visible-xs">
-				<li class="list-group-item fondo-titulo titulo-ejemplares ejemplares-movil"><h4 class="text-center  "><b >Ejemplares</b></h4></li>
-			<li class="list-group-item ejemplares-movil" ng-repeat="ejemplar in ejemplares">
-				<h4><b>CODIGO: </b>{{ejemplar.codigo}}</h4>
-				<h4><b> DISPONIBLE:</b> {{ejemplar.disponible?"SI":"NO"}}</h4>
-				<span class="badge" >{{$index+1}}</span>
-				<br/>
-			</li>
-			<li>
-			</ul>		
+			<table class="table">
+			<tr>
+				<td><strong>#</strong></td>
+  				<td><strong>Codigo</strong></td>
+  				<td><strong>Disponible</strong></td>
+  				<td><strong>Localizacion</strong></td>
+  				<td><strong>Eliminar</strong></td>
+			</tr>
+			
+				<tr  ng-repeat="ejemplar in ejemplares">
+					<td>{{$index+1}}</td>
+					<td>{{ejemplar.codigo}}</td>
+					<td> {{ejemplar.disponible?"SI":"NO"}}</td>
+					<td><a href="#mostrarUsuario" class="btn btn-primary" data-toggle="modal" ng-click="getUsuario($index)">
+						<span class="glyphicon glyphicon-comment"></span>
+							</a></td>
+						<td>	<button class="btn btn-danger" ng-click="deleteEjemplar($index)">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button></td>
+			</tr>
+			</table>
 		</div>
 		
+		
+		
+		<!-- Modal -->
+<div id="mostrarUsuario" class="modal fade">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+	      <h4 ng-show="ejemplar.disponible"><b>Localizacion del ejemplar</b></h4>
+	      <h4 ng-show="!ejemplar.disponible"><b>Usuario que tiene prestado el ejemplar</b></h4>
+      </div>
+      <div class="modal-body">
+	      <h5 ng-show="ejemplar.disponible"><b>Localizacion: </b> {{ejemplar.localizacion}}</h5>
+	      <div ng-show="!ejemplar.disponible">
+		      <h5><b>Nombre:</b> {{usuario.nombre}}</h5>
+		      <h5><b>Telefono:</b> {{usuario.telefono}}</h5>
+		      <h5><b>Email:</b> {{usuario.email}}</h5>
+		      
+	      </div>
+      </div>
+      <div class="modal-footer">
+	<input  type="button" class="btn btn-primary center-block" data-dismiss="modal" value="Aceptar" ng-click="vaciarError()"/>
+      </div>
+    </div>
+  </div>
+</div>
+    
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 ">
-			<br/><br/>
 			<prestamos></prestamos>
 		</div>
 		</div>
 	<div class="cuerpo container">
 		<br/><br/>
-	<catalogo></catalogo>
+	<novedades></novedades>
 	<br/><br/>
 	</div>
 	<pie-pagina></pie-pagina>

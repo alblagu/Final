@@ -14,10 +14,10 @@ angular.module("index",[])
 			else {
 				$http({
 					method: 'GET',
-					url: 'http://localhost:8080/TFG3/webresources/generic/usuario/' + $scope.dni+'/'+$scope.password+'/'+true
+					url: 'http://localhost:8080/Zinal/webresources/usuarios/usuario/' + $scope.dni+'/'+$scope.password+'/'+true
 				}).then(function successCallback(response) {
 					$scope.usuario=response.data;
-					
+					localStorage.setItem('usuario13uva','');
 					sessionStorage.setItem('usuario13uva',(JSON.stringify($scope.usuario || {})));
 						$("#password").each(function(){
 					if (this.checked) {
@@ -27,7 +27,7 @@ angular.module("index",[])
 						
 					
 				
-					window.location='http://localhost:8080/TFG3/inicio.html';
+					window.location='http://localhost:8080/Zinal/inicio.html';
 					
 				},
 					function errorCallback(response) {
@@ -37,16 +37,16 @@ angular.module("index",[])
 		};
 		
 		
-		if(localStorage.getItem('usuario13uva')!==null&&localStorage.getItem('usuario13uva')!=="null13uva"){
+		if(localStorage.getItem('usuario13uva')!==null&&localStorage.getItem('usuario13uva')!=="null13uva"&localStorage.getItem('usuario13uva')!==""){
 			var usuario=JSON.parse(localStorage.getItem('usuario13uva'));
 			$http({
 					method: 'GET',
-					url: 'http://localhost:8080/TFG3/webresources/generic/usuario/' + usuario.dni+'/'+usuario.password+'/'+false
+					url: 'http://localhost:8080/Zinal/webresources/usuarios/usuario/' + usuario.dni+'/'+usuario.password+'/'+false
 				}).then(function successCallback(response) {
 					$scope.usuario=response.data;
 					
 						sessionStorage.setItem('usuario13uva',(JSON.stringify($scope.usuario || {})));
-						window.location='http://localhost:8080/TFG3/inicio.html';
+						window.location='http://localhost:8080/Zinal/inicio.html';
 					});
 				
 					

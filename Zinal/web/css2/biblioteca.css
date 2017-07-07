@@ -60,16 +60,3 @@ body{
 	margin-bottom: 5%;
 }
 
-.list-group-item.ejemplares{
-	margin-left: 20%;
-	margin-right: 20%;
-	border:3px solid #d2ab25;
-}
-.list-group-item.ejemplares-movil{
-	margin-left: 4%;
-	margin-right: 4%;
-	border:3px solid #d2ab25;
-}
-.titulo-ejemplares{
-	margin-top:10%;
-}

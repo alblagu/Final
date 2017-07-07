@@ -1,4 +1,4 @@
-angular.module("usuarioPerfil", ["barraNavegacion","busqueda","prestamos","piePagina","catalogo"])
+angular.module("app")
 	.controller("UsuarioPerfilController", function ($scope, $http) {
 	
 	$scope.dni= getParameterByName("dni", window.location);
@@ -20,7 +20,7 @@ angular.module("usuarioPerfil", ["barraNavegacion","busqueda","prestamos","piePa
 
 	$http({
 		method: 'GET',
-		url: 'http://localhost:8080/TFG3/webresources/generic/usuario/' + $scope.dni
+		url: 'http://localhost:8080/Zinal/webresources/usuarios/usuario/' + $scope.dni
 		}).then(function successCallback(response) {
 			$scope.usuario=response.data;
 			},
@@ -40,7 +40,7 @@ angular.module("usuarioPerfil", ["barraNavegacion","busqueda","prestamos","piePa
 			else{
 							$http({
 				method: 'PUT',
-				url: 'http://localhost:8080/TFG3/webresources/generic/usuarios/nombre/' +$scope.usuario.dni+'/' + $scope.nombre
+				url: 'http://localhost:8080/Zinal/webresources/usuarios/usuarios/nombre/' +$scope.usuario.dni+'/' + $scope.nombre
 		}).then(function successCallback(response) {
 			alert("Nuevo nombre: "+$scope.nombre);
 			location.reload();
@@ -61,10 +61,10 @@ angular.module("usuarioPerfil", ["barraNavegacion","busqueda","prestamos","piePa
 			else{
 				$http({
 				method: 'PUT',
-				url: 'http://localhost:8080/TFG3/webresources/generic/usuarios/dni/' + $scope.usuario.dni+'/' +$scope.dni2
+				url: 'http://localhost:8080/Zinal/webresources/usuarios/usuarios/dni/' + $scope.usuario.dni+'/' +$scope.dni2
 		}).then(function successCallback(response) {
 			alert("Nuevo DNI: "+$scope.dni2);
-			window.location="http://localhost:8080/TFG3/usuarioPerfil.html?dni="+$scope.dni2;
+			window.location="http://localhost:8080/Zinal/usuarioPerfil.html?dni="+$scope.dni2;
 			});
 			}
 		}
@@ -86,7 +86,7 @@ angular.module("usuarioPerfil", ["barraNavegacion","busqueda","prestamos","piePa
 			else{
 							$http({
 				method: 'PUT',
-				url: 'http://localhost:8080/TFG3/webresources/generic/usuarios/telefono/'+$scope.usuario.dni+'/' + $scope.telefono
+				url: 'http://localhost:8080/Zinal/webresources/usuarios/usuarios/telefono/'+$scope.usuario.dni+'/' + $scope.telefono
 		}).then(function successCallback(response) {
 			alert("Nuevo telefono: "+$scope.telefono);
 			location.reload();
@@ -127,7 +127,7 @@ angular.module("usuarioPerfil", ["barraNavegacion","busqueda","prestamos","piePa
 			else{
 			$http({
 				method: 'PUT',
-				url: 'http://localhost:8080/TFG3/webresources/generic/usuarios/password/'+$scope.usuario.dni+'/' + $scope.contrasenaAntigua +'/'+$scope.contrasenaNueva
+				url: 'http://localhost:8080/Zinal/webresources/usuarios/usuarios/password/'+$scope.usuario.dni+'/' + $scope.contrasenaAntigua +'/'+$scope.contrasenaNueva
 		}).then(function successCallback(response) {
 			alert("Contraseña cambiada correctamente");
 			location.reload();

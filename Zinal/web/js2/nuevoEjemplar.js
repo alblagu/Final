@@ -1,25 +1,27 @@
-angular.module("nuevoEjemplar",["barraNavegacion","busqueda","piePagina","prestamos","catalogo"])
+angular.module("app")
 .controller("Ejemplar2",function($scope,$http){
 	$scope.isbn="";
 	$scope.codigo="";
+	$scope.localizacion="";
 	$scope.error=false;
 	$scope.mostrarManual=false;
 	$scope.textoError="";
 	
 	$http({
 		method: 'GET',
-		url: 'http://localhost:8080/TFG3/webresources/generic/categorias'
+		url: 'http://localhost:8080/Zinal/webresources/libros/categorias'
 			}).then(function successCallback(response) {
 				$scope.categorias=response.data;
 		});
 	
 	$scope.cancelar=function(){
-		$scope.parte=false;
+		$scope.textoError="";
+		$scope.avanzar=false;
 	};
 
 
 	$scope.generarManual=function(){
-		window.location='http://localhost:8080/TFG3/nuevoEjemplarManual.html';
+		window.location='http://localhost:8080/Zinal/nuevoEjemplarManual.html';
 	};
 	
 	$scope.errores=function(){
@@ -35,9 +37,9 @@ angular.module("nuevoEjemplar",["barraNavegacion","busqueda","piePagina","presta
 				$scope.textoError="El isbn tiene que tener 10 o 13 digitos";
 			}
 			else{
-				if(isNaN($scope.isbn)||$scope.isbn%1!==0){
+				if(isNaN($scope.isbn)||$scope.isbn%1!==0||$scope.isbn[$scope.isbn.length-1]==='.'){
 					$scope.error=true;
-					$scope.textoError="El isbn tiene que tener solo numeros";
+					$scope.textoError="El isbn tiene que tener unicamente numeros";
 				}
 		}
 		}
@@ -49,11 +51,11 @@ angular.module("nuevoEjemplar",["barraNavegacion","busqueda","piePagina","presta
 		if(!$scope.error){	
 			$http({
   			method: 'GET',
-  			url: 'http://localhost:8080/TFG3/webresources/generic/libro/'+$scope.isbn
+  			url: 'http://localhost:8080/Zinal/webresources/libros/'+$scope.isbn
 				}).then(function successCallback(response) {
 				$scope.error=false;
 				$scope.libro=response.data;
-				$scope.parte=true;
+				$scope.avanzar=true;
 				
  	 		}, 
 	 			function errorCallback(response) {
@@ -67,9 +69,11 @@ angular.module("nuevoEjemplar",["barraNavegacion","busqueda","piePagina","presta
 	$scope.addEjemplar=function(){
 		$scope.error=false;
 		$scope.textoError="";
-		if($scope.codigo.length===0){
+		console.log($scope.codigo.length===0);
+		console.log($scope.localizacion.length===0);
+		if($scope.codigo.length===0||$scope.localizacion.length===0){
 			$scope.error=true;
-			$scope.textoError="El codigo no puede ser una cadena vacia";
+			$scope.textoError="Los campos no pueden ser vacíos";
 		}
 		else{
 			var categorias= [];    
@@ -81,7 +85,8 @@ angular.module("nuevoEjemplar",["barraNavegacion","busqueda","piePagina","presta
 			 }); 
 			
 			$scope.libro.categorias=categorias;
-		
+			$scope.libro.localizacion=$scope.localizacion;
+			console.log($scope.libro);
 			
 			$http({
 				headers: { 
@@ -89,7 +94,7 @@ angular.module("nuevoEjemplar",["barraNavegacion","busqueda","piePagina","presta
         				'Content-Type': 'application/json' 
     },
   		 		method: 'POST',
-  				url: 'http://localhost:8080/TFG3/webresources/generic/ejemplares/'+$scope.codigo,
+  				url: 'http://localhost:8080/Zinal/webresources/ejemplares/'+$scope.codigo,
 				data:JSON.stringify($scope.libro)
 				}).then(function successCallback(response) {
 					
@@ -97,7 +102,7 @@ angular.module("nuevoEjemplar",["barraNavegacion","busqueda","piePagina","presta
 					alert("Se ha añadido un ejemplar con el codigo "+$scope.codigo+" del libro con isbn "+$scope.isbn);
 					$scope.isbn="";
 					$scope.codigo="";
-					$scope.parte=true;
+					$scope.avanzar=true;
 					location.reload();	
  	 		}, 
 	 			function errorCallback(response) {

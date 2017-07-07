@@ -1,4 +1,4 @@
-<html ng-app="nuevoPrestamo">
+<html ng-app="app">
 	<head>
 		<title>BIBLIOTECA</title>
 		<link rel="shortcut icon" href="imagenes/libroVerde.png">
@@ -10,12 +10,15 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+				<script src="js2/app.js"></script>
 		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
 		<script src="componentes/prestamos/prestamos.js"></script>
 		<script src="componentes/footer/footer.js"></script>
-		<script src="js2/nuevoPrestamo.js"></script>
+		<script src="componentes/novedades/novedades.js"></script>
 		<script src="componentes/busquedas/busquedas.js"></script>
-		<script src="componentes/catalogo/catalogo.js"></script>
+		<script src="js2/nuevoPrestamo.js"></script>
+		
+		
 	</head>	
 	<body>
 		
@@ -23,7 +26,6 @@
 	<busqueda></busqueda>
 
 	<div class="container cuerpo" ng-controller="prestamoController">
-		<br/>
 		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 ">
 			
 	
@@ -56,6 +58,7 @@
 
 
 			<form ng-show="avanzar">
+				<div ng-show="usuario.tipoUsuario==='ALUMNO'">
 				<h1 class="text-center hidden-xs">Fecha fin minima: {{fechaMinima()}}</h1>
 				<h4 class="text-center visible-xs">Fecha fin minima: {{fechaMinima()}}</h4>
 				<div class="fecha-minima">				
@@ -63,7 +66,7 @@
    <input type="date" id="fechaInput" name="input" ng-model="fechaFin"
        placeholder="yyyy-MM-dd" />
 				</div>
-  
+				</div>
 			
 				<div class="col-lg-3  col-sm-3 col-md-3 foto-libro text-center hidden-xs">	
 				<img ng-src="{{ejemplar.urlfoto}}"/>
@@ -102,7 +105,7 @@
 	</div>
 	<div class="cuerpo container">
 		<br/><br/>
-	<catalogo></catalogo>
+	<novedades></novedades>
 	<br/><br/>
 	</div>
 	<pie-pagina></pie-pagina>

@@ -10,18 +10,25 @@ package dominio;
  * @author alberto
  */
 public class Usuario {
+	
+	public static final String ADMIN="ADMIN";
+	public static final String PROFESOR="PROFESOR";
+	public static final String ALUMNO="ALUMNO";
+	
 	private final String dni;
 	private final String password;
 	private final String nombre;
-	private final boolean administrador;
+	private final String tipoUsuario;
 	private final String telefono;
+	private final String email;
 
-	public Usuario(String dni, String password, String nombre,  boolean administrador, String telefono) {
+	public Usuario(String dni, String password, String nombre, String tipoUsuario, String telefono, String email) {
 		this.dni = dni;
 		this.password = password;
 		this.nombre = nombre;
-		this.administrador=administrador;
+		this.tipoUsuario=tipoUsuario;
 		this.telefono = telefono;
+		this.email=email;
 	}
 	
 	public String getDNI() {
@@ -36,11 +43,14 @@ public class Usuario {
 		return nombre;
 	}
 
-	public boolean getAdministrador(){
-		return administrador;
+	public String getTipoUsuario(){
+		return tipoUsuario;
 	}
 
 	public String getTelefono() {
 		return telefono;
 	}	
+	public String getEmail(){
+		return email;
+	}
 }

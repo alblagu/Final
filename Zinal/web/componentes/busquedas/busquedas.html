@@ -14,12 +14,10 @@
 		<form class="navbar-form " >
 			<div class="form-group " >
 			<b>BUSQUEDA DE LIBROS  </b>	
-			<input type="text" class="form-control hidden-xs"  placeholder="Buscar" ng-model="busqueda">
+			<input type="text" class="form-control hidden-xs"  placeholder="Buscar" ng-model="cadena">
 			<div class="visible-xs ">
 			<input type="text" class="form-control center-block " id="buscador" placeholder="Buscar" ng-model="busqueda">
 			</div>
-			
-			
 			<button  ng-click="realizarBusqueda()" class="btn btn-primary">
 				<span class="glyphicon glyphicon-search"></span>
 			</button>
@@ -28,19 +26,15 @@
 			<div ng-show="filtros">
 <div class="radio">
 	<br/>
-	<label ><b>TipoBusqueda:</b> </label>
-	 <label class="radio-inline"><input type="radio" name="optradio">Titulo: </label>
- <label class="radio-inline"><input type="radio" name="optradio">ISBN: </label>
-  <label class="radio-inline"><input type="radio" name="optradio">Autor: </label>
-
+	<label ><b>Tipo Busqueda:</b> </label>
+	<label class="radio-inline"><input type="radio" name="optradio" value="titulo" checked="checked" ng-click="titulo()">Titulo: </label>
+ <label class="radio-inline"><input type="radio" name="optradio" value="isbn" ng-click="isbn()">ISBN: </label>
+ <label class="radio-inline"><input type="radio"  name="optradio" value="autor" ng-click="autor()">Autor: </label>
 </div>	
 				<div>
 					<label ><b>Categorias:</b> </label>
-					<label class="checkbox-inline" ng-repeat="categoria in categorias"><input type="checkbox" value="{{categoria}}">{{categoria}}</label>
-				</div>
-
-
-				
+					<label class="checkbox-inline" ng-repeat="categoria in categorias"><input type="checkbox" name="{{categoria}}">{{categoria}}</label>
+				</div>	
 			</div>
 	</form>
 </div>

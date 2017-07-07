@@ -24,11 +24,11 @@ public class GestorEjemplar {
 	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
 	 */
 	public static Ejemplar selectEjemplarByCodigo(String codigo) throws SQLException, ClassNotFoundException{
-        	String laQuery = ("select * from BIBLIOTECA.EJEMPLAR where codigo='"+codigo+"'");
+        	String laQuery = ("select * from EJEMPLAR where codigo='"+codigo+"'");
 		ResultSet rs =ConexionBD.getInstancia().select(laQuery);
 
 		while(rs.next())
-			return new Ejemplar(rs.getString("codigo"),GestorLibro.selectLibroByISBN(rs.getString("libro")),rs.getBoolean("disponible")); 
+			return new Ejemplar(rs.getString("codigo"),GestorLibro.selectLibroByID(rs.getInt("libro")),rs.getBoolean("disponible"),rs.getString("localizacion")); 
 		return null;
 	}
 
@@ -39,13 +39,13 @@ public class GestorEjemplar {
 	 * @throws java.lang.ClassNotFoundException al ocurrir algun problema con la base de datos.
 	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
 	 */
-	public static ArrayList<Ejemplar> selectEjemplaresByISBN(String isbn) throws ClassNotFoundException, SQLException {
-		String laQuery=("select * from BIBLIOTECA.EJEMPLAR where libro='"+isbn+"'");
+	public static ArrayList<Ejemplar> selectEjemplaresByID(int id) throws ClassNotFoundException, SQLException {
+		String laQuery=("select * from EJEMPLAR where libro="+id);
 		ResultSet rs=ConexionBD.getInstancia().select(laQuery);
 
 		ArrayList<Ejemplar> ejemplares=new ArrayList<>();
 		while(rs.next())
-			ejemplares.add(new Ejemplar(rs.getString("codigo"),GestorLibro.selectLibroByISBN(rs.getString("libro")),rs.getBoolean("disponible")));
+			ejemplares.add(new Ejemplar(rs.getString("codigo"),GestorLibro.selectLibroByID(rs.getInt("libro")),rs.getBoolean("disponible"),rs.getString("localizacion")));
 		return ejemplares;
 	}
 	
@@ -56,7 +56,7 @@ public class GestorEjemplar {
 	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
 	 */
 	public static void create(Ejemplar ejemplar) throws ClassNotFoundException, SQLException {
-		String laQuery=("insert into BIBLIOTECA.EJEMPLAR(CODIGO,LIBRO,DISPONIBLE) values('"+ejemplar.getCodigo()+"','"+ejemplar.getLibro().getISBN10()+"','"+ejemplar.getDisponible()+"')");
+		String laQuery=("insert into EJEMPLAR(CODIGO,LIBRO,DISPONIBLE,LOCALIZACION) values('"+ejemplar.getCodigo()+"','"+ejemplar.getLibro().getId()+"','"+ejemplar.getDisponible()+"','"+ejemplar.getLocalizacion()+"')");
 		ConexionBD.getInstancia().update(laQuery);
 	}
 
@@ -67,12 +67,13 @@ public class GestorEjemplar {
 	 * @throws java.sql.SQLException al ocurrir algun problema con la base de datos.
 	 */
 	public static void deleteByCodigo(String codigo) throws ClassNotFoundException, SQLException {
-		String laQuery=("delete * from BIBLIOTECA.EJEMPLAR where codigo='"+codigo+"'");
+		String laQuery=("delete * from EJEMPLAR where codigo='"+codigo+"'");
 		ConexionBD.getInstancia().update(laQuery);
 	}
 
-	static void updateEjemplarCambiaDisponible(Ejemplar ejemplar) throws ClassNotFoundException, SQLException {
-		String laQuery=("update BIBLIOTECA.EJEMPLAR SET DISPONIBLE='"+!ejemplar.getDisponible()+"' WHERE codigo='"+ejemplar.getCodigo()+"'");
+	public static void updateEjemplarCambiaDisponible(Ejemplar ejemplar) throws ClassNotFoundException, SQLException {
+		String laQuery=("update EJEMPLAR SET DISPONIBLE='"+!ejemplar.getDisponible()+"' WHERE codigo='"+ejemplar.getCodigo()+"'");
+		System.out.println(laQuery);
 		ConexionBD.getInstancia().update(laQuery);
 	}
 	

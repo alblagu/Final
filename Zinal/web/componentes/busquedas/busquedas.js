@@ -1,12 +1,13 @@
 angular.module("busqueda",[])
 .controller("Busqueda",function($scope,$http){
-	$scope.busqueda="";
+	$scope.cadena="";
 	$scope.filtros=false;
+	$scope.tipoBusqueda='titulo';
 	
 	
 	$http({
 		method: 'GET',
-		url: 'http://localhost:8080/TFG3/webresources/generic/categorias'
+		url: 'http://localhost:8080/Zinal/webresources/libros/categorias'
 			}).then(function successCallback(response) {
 				$scope.categorias=response.data;
 		});
@@ -19,10 +20,44 @@ angular.module("busqueda",[])
 
 	
 	$scope.realizarBusqueda=function(){
-		if($scope.busqueda.length!==0){
-			window.location='http://localhost:8080/TFG3/busquedaLibros.html?busqueda='+$scope.busqueda;
-		}		
-	};
+			
+			var busqueda={
+				cadena:$scope.cadena,
+				filtros:false
+			};
+			if($scope.filtros){
+		
+		
+			var categorias= [];    
+			$('input[type=checkbox]').each(function(){
+			if (this.checked) {
+				 categorias.push($(this).attr("name"));
+				 
+			 }
+			 }); 
+		
+		
+			 busqueda={
+				cadena:$scope.cadena,
+				categorias:categorias,
+				tipoBusqueda:$scope.tipoBusqueda,
+				filtros:true
+			};
+			
+		}
+			
+			window.location='http://localhost:8080/Zinal/busquedaLibros.html?busqueda='+JSON.stringify(busqueda);
+		};
+		
+		$scope.titulo=function(){
+			$scope.tipoBusqueda='titulo';
+		};
+		$scope.isbn=function(){
+			$scope.tipoBusqueda='isbn';
+		};
+		$scope.autor=function(){
+			$scope.tipoBusqueda='autor';
+		};
 
 })
 .component("busqueda",{

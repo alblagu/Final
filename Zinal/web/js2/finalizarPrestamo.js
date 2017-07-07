@@ -1,6 +1,5 @@
-angular.module("finalizarPrestamo",["barraNavegacion","piePagina","prestamos","busqueda","catalogo"])
-	.controller("prestamoController", function ($scope, $http) {
-		$scope.NUM_MAX_PRESTAMOS=3;
+angular.module("app")
+	.controller("FinalizarPrestamoController", function ($scope, $http) {
 		$scope.dni = "";
 		$scope.codigo = "";
 		$scope.textoError = "";
@@ -19,7 +18,7 @@ angular.module("finalizarPrestamo",["barraNavegacion","piePagina","prestamos","b
 			else {
 				$http({
 					method: 'GET',
-					url: 'http://localhost:8080/TFG3/webresources/generic/prestamo/' + $scope.codigo+'/'+$scope.dni
+					url: 'http://localhost:8080/Zinal/webresources/ejemplares/prestamo/' + $scope.codigo+'/'+$scope.dni
 				}).then(function successCallback(response) {
 					$scope.prestamo=response.data;
 					$scope.avanzar=true;
@@ -35,38 +34,17 @@ angular.module("finalizarPrestamo",["barraNavegacion","piePagina","prestamos","b
 	
 
 		
-		$scope.nuevoPrestamo = function () {
-			$scope.textoErrorFecha="";
-			if($scope.fechaFin===null){
-				$scope.textoErrorFecha="Seleccione una fecha";
-			}
-			else{
-				if($scope.fechaFin.getDay()===6||$scope.fechaFin.getDay()===0){
-					$scope.textoErrorFecha="El prestamo no puede acabar en finde semana";		
-				}
-				else{
-					var fecha={
-						dia:$scope.fechaFin.getDate(),
-						mes:$scope.fechaFin.getMonth() + 1,
-						anio:$scope.fechaFin.getFullYear()
-					};
-
-					$http({
-						headers: {
-							'Accept': 'application/json',
-							'Content-Type': 'application/json'
-						},
-						method: 'POST',
-						url: 'http://localhost:8080/TFG3/webresources/generic/prestamos/'+$scope.dni+"/"+$scope.codigo,
-						data: JSON.stringify(fecha)
-					}).then(function successCallback(response) {
-
-						alert("Se ha añadido un prestamo al ejemplar con el codigo " + $scope.codigo+" hasta el dia ");
-						location.reload();	
+		$scope.finalizar = function () {
+			$http({
+					method: 'POST',
+					url: 'http://localhost:8080/Zinal/webresources/ejemplares/prestamos/' + $scope.codigo
+				}).then(function successCallback(response) {
+					alert("prestamo finalizado");
+					$scope.dni = "";
+					$scope.codigo = "";
+				$scope.textoError = "";
+					$scope.avanzar=false;
 					});
-				}
-			}	
 		};
-
 
 	});

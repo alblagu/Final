@@ -1,4 +1,4 @@
-<html ng-app="busquedaLibros">
+<html ng-app="app">
 	<head>
 		<title>BIBLIOTECA</title>
 		<link rel="shortcut icon" href="imagenes/libroVerde.png">
@@ -10,14 +10,15 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="js2/app.js"></script>
 		<script src="js2/busquedaLibros.js"></script>
 		<script src="componentes/barra-navegacion/barra-navegacion.js"></script>
 		<script src="componentes/prestamos/prestamos.js"></script>
 		<script src="componentes/footer/footer.js"></script>
 		<script src="componentes/busquedas/busquedas.js"></script>
-		<script src="componentes/catalogo/catalogo.js"></script>
+		<script src="componentes/novedades/novedades.js"></script>
 	</head>
-	<body ng-controller="Busqueda1">
+	<body ng-controller="BusquedaLibrosController">
 	<barra-navegacion></barra-navegacion>
 	<busqueda></busqueda>
 
@@ -31,29 +32,66 @@
 			<br/>
 			<br/>
 			</div>
+			<h5 class="text-right"><a  ng-click="cambiaVista()">Cambiar Vista</a></h5>
+			
 			<b class="tituloInicioMovil visible-xs text-center"><u>Busqueda Libros</u></b>
 			
-			<div class="bordes-busqueda-libros">
-				<h3 class="text-success text-center">Para la cadena:"{{busqueda}}"  se han encontrado {{libros.length}} libros </h3>
-			</div>
-			<div  ng-repeat="libro in libros2" class="bordes-busqueda-libros" >
+			
+			<div  ng-repeat="libro in libros2" class="bordes-busqueda-libros" ng-show="vista" >
 			
 				<img ng-src="{{libro.urlfoto}}" class="libro-busqueda col-lg-3 col-md-3 col-sm-3 foto-libro" height="177" width="128">
 			
 			
 				
 					<br/>
-				<strong>Titulo: {{libro.titulo}}</strong>
-					<h5>ISBN10: {{libro.isbn10}}</h5>
-					<h5>ISBN13: {{libro.isbn13}}</h5>
-					<h5/><b>Categorias: </b> {{libro.categorias}}</h5>
-					<h5/><b>Autores: </b> {{libro.autores}}</h5>
+					<h5><b>Titulo:</b> {{libro.titulo}}</h5>
+					<h5><b>ISBN10:</b>{{libro.isbn10}}</h5>
+					<h5><b>ISBN13:</b> {{libro.isbn13}}</h5>
+					<h5/><b>Categorias: </b> {{libro.categorias.toString()}}</h5>
+					<h5/><b>Autores: </b> {{libro.autores.toString()}}</h5>
 					<input type="button" class="btn btn-success" value="ver ejemplares" ng-click="muestraEjemplares($index)"/>
 					</br></br>					
 				
 			</div>	
 			
-			<h4 class="text-center text-success">{{resultado()}} usuarios de {{libros.length}} usuarios totales</h4>
+			
+			
+			<table  class="table" ng-show="!vista">
+			
+				<tr>
+					<td><b>Titulo</b></td>
+					<td><b>Autores </b></td>
+					<td><b>Categorias </b></td>
+					<td><b>Ejemplares</b></td>
+						
+				</tr>
+		
+					<tr ng-repeat="libro in libros2">
+					<td> {{libro.titulo}}</td>
+					<td> {{libro.categorias.toString()}}</td>
+					<td/> {{libro.autores.toString()}}</td>
+					<td>
+						<button class="btn btn-success" ng-click="muestraEjemplares($index)">
+							<span class="glyphicon glyphicon-share-alt
+e"></span>
+						</button>
+						
+						
+					</tr>					
+				
+			</table>	
+			
+			
+			
+			<div class="bordes-busqueda-libros">
+				<h3 class="text-success text-center">Para la cadena:"{{busqueda.cadena}}"  se han encontrado {{libros.length}} libros </h3>
+			</div>
+			
+			
+			
+			
+			
+			<h4 class="text-center text-success">{{resultado()}} libros de {{libros.length}} libros totales</h4>
 				<div class=" text-center"  >
 		<button class="btn-lg btn-success" ng-click="anteriores()">
 			<span class="glyphicon glyphicon-chevron-left"></span>
@@ -71,7 +109,7 @@
 		
 	<div class="cuerpo container">
 		<br/><br/>
-	<catalogo></catalogo>
+	<novedades></novedades>
 	<br/><br/>
 	</div>
 	

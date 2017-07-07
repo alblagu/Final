@@ -1,4 +1,4 @@
-angular.module("nuevoPrestamo",["barraNavegacion","piePagina","prestamos","busqueda","catalogo"])
+angular.module("app")
 	.controller("prestamoController", function ($scope, $http) {
 		$scope.NUM_MAX_PRESTAMOS=3;
 		$scope.dni = "";
@@ -28,7 +28,7 @@ angular.module("nuevoPrestamo",["barraNavegacion","piePagina","prestamos","busqu
 			else {
 				$http({
 					method: 'GET',
-					url: 'http://localhost:8080/TFG3/webresources/generic/ejemplares/ejemplar/' + $scope.codigo
+					url: 'http://localhost:8080/Zinal/webresources/ejemplares/' + $scope.codigo
 				}).then(function successCallback(response) {
 					$scope.ejemplar = response.data;
 					if(!$scope.ejemplar.disponible){
@@ -37,10 +37,16 @@ angular.module("nuevoPrestamo",["barraNavegacion","piePagina","prestamos","busqu
 					else{
 					$http({
 						method: 'GET',
-						url: 'http://localhost:8080/TFG3/webresources/generic/usuario/' + $scope.dni
+						url: 'http://localhost:8080/Zinal/webresources/usuarios/usuario/' + $scope.dni
 					}).then(function successCallback(response) {
 						$scope.usuario = response.data;
-						$scope.comprobarMasXPrestamos();
+						if($scope.usuario.tipoUsuario==='ADMIN'){
+							$scope.textoError = "El administrador no puede tener prestamos";
+						}
+						else{
+							$scope.comprobarMasXPrestamos();
+						}
+						
 					},
 						function errorCallback(response) {
 							$scope.textoError = "No hay ningun usuario con ese dni";
@@ -55,16 +61,21 @@ angular.module("nuevoPrestamo",["barraNavegacion","piePagina","prestamos","busqu
 		
 		
 		$scope.comprobarMasXPrestamos=function(){
+			if($scope.usuario.tipoUsuario==='PROFESOR'){
+				$scope.avanzar=true;
+			}
+			else{	
 			$http({
-				url: 'http://localhost:8080/TFG3/webresources/generic/prestamosUsu/'+$scope.usuario.dni
+				url: 'http://localhost:8080/Zinal/webresources/ejemplares/prestamosUsu/'+$scope.usuario.dni
 		}).then(function successCallback(response) {
-			if(response.data.length>=3){
-				$scope.textoError = "Ese usuario ya tiene "+$scope.NUM_MAX_PRESTAMOS+" prestamos, No puede tener mas";
+			if(response.data.length>=$scope.NUM_MAX_PRESTAMOS){
+				$scope.textoError = "Ese ALUMNO ya tiene "+$scope.NUM_MAX_PRESTAMOS+" prestamos, No puede tener mas";
 			}
 			else{
 				$scope.avanzar=true;
 			}
 			});
+		}
 		};
 
 	
@@ -85,6 +96,7 @@ angular.module("nuevoPrestamo",["barraNavegacion","piePagina","prestamos","busqu
 						mes:$scope.fechaFin.getMonth() + 1,
 						anio:$scope.fechaFin.getFullYear()
 					};
+					
 
 					$http({
 						headers: {
@@ -92,11 +104,11 @@ angular.module("nuevoPrestamo",["barraNavegacion","piePagina","prestamos","busqu
 							'Content-Type': 'application/json'
 						},
 						method: 'POST',
-						url: 'http://localhost:8080/TFG3/webresources/generic/prestamos/'+$scope.dni+"/"+$scope.codigo,
+						url: 'http://localhost:8080/Zinal/webresources/ejemplares/prestamos/'+$scope.dni+"/"+$scope.codigo,
 						data: JSON.stringify(fecha)
 					}).then(function successCallback(response) {
 
-						alert("Se ha añadido un prestamo al ejemplar con el codigo " + $scope.codigo+" hasta el dia ");
+						alert("Se ha añadido un prestamo al ejemplar con el codigo " + $scope.codigo);
 						location.reload();	
 					});
 				}
